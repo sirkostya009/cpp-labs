@@ -6,4 +6,4 @@
 
 Для запуску конкретної лаби, використовуючи CLion, оберіть відповідний Run Configuration у списку:
 
-![Приклад](screenshot.png "Приклад")
+![Приклад](https://i.imgur.com/PongyCl.png "Приклад")
