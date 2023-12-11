@@ -6,4 +6,8 @@
 
 Для запуску конкретної лаби, використовуючи CLion, оберіть відповідний Run Configuration у списку:
 
-![Приклад](https://i.imgur.com/PongyCl.png "Приклад")
+![CLion](https://i.imgur.com/PongyCl.png "Приклад CLion")
+
+У Visual Studio:
+
+![VS](https://i.imgur.com/RhljYCT.png "Приклад Visual Studio")
