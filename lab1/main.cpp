@@ -14,7 +14,7 @@ public:
     Employee(const char* name, const int& departmentId, const int& employeeId) : departmentId(departmentId), employeeId(employeeId) {
         auto len = strlen(name) + 1;
         this->name = new char[len];
-        strncpy(this->name, name, len);
+        strncpy_s(this->name, len, name, len);
 
         std::cout << "All args constructor called with values " << name << ", " << departmentId << ", " << employeeId << '\n';
     }
@@ -39,7 +39,7 @@ public:
         delete[] name;
         auto len = strlen(newName) + 1;
         name = new char[len];
-        strncpy(name, newName, len);
+        strncpy_s(name, len, newName, len);
         return name;
     }
     int setDepartmentId(const int& newId) { return departmentId = newId; }

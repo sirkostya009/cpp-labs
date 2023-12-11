@@ -1,0 +1,12 @@
+add_executable(lab4
+        main.cpp
+        App.h
+        App.cpp
+        EventDispatch.cpp
+        EventDispatch.h
+        handlers.cpp
+        handlers.h
+        Worker.cpp
+        Worker.h
+        Event.h
+        List.h)
