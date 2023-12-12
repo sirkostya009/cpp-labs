@@ -7,8 +7,8 @@ project(lab5)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_subdirectory(lab1)
-add_subdirectory(lab2)
-add_subdirectory(lab3)
-add_subdirectory(lab4)
-add_subdirectory(lab5)
+add_executable(lab1 lab1/main.cpp)
+add_executable(lab2 lab2/main.cpp)
+add_executable(lab3 lab3/main.cpp)
+add_executable(lab4 lab4/main.cpp)
+add_executable(lab5 lab5/main.cpp)
