@@ -1,8 +1,8 @@
-#include "handlers.h"
-
 #include <regex>
 #include <iostream>
 #include "App.h"
+#include <Instance.h>
+
 
 namespace app::handlers {
     auto numberRegex = std::regex(R"(\d+)");
@@ -59,9 +59,40 @@ namespace app::handlers {
         }
     }
 
-    void handleFilterEvent(Event &event) {
+
+    void printWorker(const std::shared_ptr<Worker>& worker) {
+        std::cout << worker->getType() << ' ' << worker->getName() << ' ' << worker->getSalary() << '\n';
+    }
+
+    void handleFilterEvent(Event& event) {
         event.handled = true;
-        std::cout << "Filtered\n";
+
+        std::string type;
+        int* salary = nullptr;
+
+        auto validType = isWorkerType(type);
+
+        List<std::shared_ptr<Worker>> filtered;
+
+        if (salary != nullptr && validType) {
+            filtered = App::instance.list->filter([&type, &salary](const std::shared_ptr<Worker>& worker) {
+                return worker->getType() == type && worker->getSalary() >= *salary;
+                });
+        }
+        else if (salary != nullptr) {
+            filtered = App::instance.list->filter([&salary](const std::shared_ptr<Worker>& worker) {
+                return worker->getSalary() >= *salary;
+                });
+        }
+        else if (validType) {
+            filtered = App::instance.list->filter([&type](const std::shared_ptr<Worker>& worker) {
+                return worker->getType() == type;
+                });
+        }
+
+        filtered.forEach(printWorker);
+
+        delete salary;
     }
 
     void handlePrintEvent(Event &event) {
@@ -71,8 +102,10 @@ namespace app::handlers {
         event.handled = true;
     }
 
-    void handleDeleteEvent(Event &event) {
+    void handleDeleteEvent(Event& event) {
         event.handled = true;
-        std::cout << "Deleted!\n";
+
+        std::cout << "Deleted all workers.\n";
     }
+
 }
