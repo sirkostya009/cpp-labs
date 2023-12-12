@@ -70,7 +70,7 @@ public:
         return "Employee";
     }
 
-    ~Employee() {
+    ~Employee() override {
         std::cout << "~Employee()\n";
     }
 };
@@ -85,7 +85,7 @@ public:
         return "Manager";
     }
 
-    ~Manager() {
+    ~Manager() override {
         std::cout << "~Manager()\n";
     }
 };
@@ -100,7 +100,7 @@ public:
         return "Engineer";
     }
 
-    ~Engineer() {
+    ~Engineer() override {
         std::cout << "~Engineer()\n";
     }
 };

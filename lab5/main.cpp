@@ -21,7 +21,7 @@ public:
 
     virtual bool operator>(const Self& other) const = 0;
 
-    virtual Self operator-(const T& t) = 0;
+    virtual Self operator-(const T& t) const = 0;
 
     virtual const T& operator[](const std::size_t& index) const {
         return elements[index];
@@ -82,7 +82,7 @@ public:
         return false;
     }
 
-    String operator-(const char& c) override {
+    String operator-(const char& c) const override {
         auto newString = new char[size];
         std::size_t newSize = 0;
 
