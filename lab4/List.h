@@ -99,6 +99,16 @@ namespace app {
             node->previous = newNode;
         }
 
+        void removeWorker(const T& worker) {
+            auto it = std::find_if(begin(), end(), [&worker](const std::shared_ptr<Worker>& w) {
+                return w.get() == worker.get();
+                });
+
+            if (it != end()) {
+                erase(it);
+            }
+        }
+
         void remove(const std::size_t& index) {
             if (index == 0) {
                 push();

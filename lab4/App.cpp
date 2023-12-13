@@ -28,7 +28,6 @@ namespace app {
             std::cout << '>';
             std::cin >> operation;
             std::getline(std::cin, event.data);
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
             event.handled = false;
 

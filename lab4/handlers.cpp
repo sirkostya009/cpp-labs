@@ -1,7 +1,6 @@
 #include <regex>
 #include <iostream>
 #include "App.h"
-#include <Instance.h>
 
 
 namespace app::handlers {
@@ -102,10 +101,27 @@ namespace app::handlers {
         event.handled = true;
     }
 
-    void handleDeleteEvent(Event& event) {
+    void handleDeleteFilteredEvent(Event& event) {
         event.handled = true;
 
-        std::cout << "Deleted all workers.\n";
+        std::string type;
+        int salary = 0;
+
+        auto validType = isWorkerType(type);
+        if (std::regex_search(event.data, numberRegex)) {
+            salary = std::stoi(event.data);
+        }
+
+        auto filtered = App::instance.list->filter([&type, &salary, &validType](const std::shared_ptr<Worker>& worker) {
+            return (!validType || worker->getType() == type) && (salary == 0 || worker->getSalary() >= salary);
+            });
+
+        filtered.forEach([](const std::shared_ptr<Worker>& worker) {
+            App::instance.list->removeWorker(worker);
+            delete worker.get();
+            });
+
+        std::cout << "Deleted filtered workers.\n";
     }
 
 }
