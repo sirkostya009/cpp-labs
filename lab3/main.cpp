@@ -65,111 +65,31 @@ public:
         T value;
     };
 
-    List(std::initializer_list<T> list = {}) {
+    List(const std::initializer_list<T>& list = {}) {
         for (auto& i : list) {
             append(i);
         }
     }
 
     void append(const T& value) {
-        auto node = new Node();
-        node->value = value;
-        node->previous = tail;
-        node->next = nullptr;
+        auto node = new Node{
+                .previous = tail,
+                .next = nullptr,
+                .value = value,
+        };
 
-        if (tail != nullptr)
-            tail->next = node;
-        else
+        if (head == nullptr && tail == nullptr) {
             head = node;
-
-        tail = node;
-    }
-
-    void prepend(const T& value) {
-        auto node = new Node();
-        node->value = value;
-        node->previous = nullptr;
-        node->next = head;
-
-        if (head != nullptr)
-            head->previous = node;
-        else
+        } else if (tail != nullptr) {
+            tail->next = node;
             tail = node;
-
-        head = node;
-    }
-
-    void pop() {
-        if (tail == nullptr)
-            return;
-
-        auto node = tail;
-        tail = tail->previous;
-
-        if (tail != nullptr)
-            tail->next = nullptr;
-        else
-            head = nullptr;
-
-        delete node;
-    }
-
-    void push() {
-        if (head == nullptr)
-            return;
-
-        auto node = head;
-        head = head->next;
-
-        if (head != nullptr)
-            head->previous = nullptr;
-        else
-            tail = nullptr;
-
-        delete node;
-    }
-
-    void insert(const T& value, const std::size_t& index) {
-        if (index == 0) {
-            prepend(value);
-            return;
+        } else {
+            head->next = node;
+            node->previous = head;
+            tail = node;
         }
 
-        auto node = head;
-        for (std::size_t i = 0; i < index; i++) {
-            if (node == nullptr)
-                return;
-
-            node = node->next;
-        }
-
-        auto newNode = new Node();
-        newNode->value = value;
-        newNode->previous = node->previous;
-        newNode->next = node;
-
-        node->previous->next = newNode;
-        node->previous = newNode;
-    }
-
-    void remove(const std::size_t& index) {
-        if (index == 0) {
-            push();
-            return;
-        }
-
-        auto node = head;
-        for (std::size_t i = 0; i < index; i++) {
-            if (node == nullptr)
-                return;
-
-            node = node->next;
-        }
-
-        node->previous->next = node->next;
-        node->next->previous = node->previous;
-
-        delete node;
+        count++;
     }
 
     class Iterator {
@@ -201,11 +121,11 @@ public:
         }
     };
 
-    const Iterator begin() const {
+    Iterator begin() const {
         return Iterator(head);
     }
 
-    const Iterator end() const {
+    Iterator end() const {
         return Iterator(nullptr);
     }
 
@@ -240,38 +160,41 @@ public:
         }
     }
 
+    std::size_t size() {
+        return count;
+    }
+
     ~List() {
-        for (auto node = head; node != nullptr;) {
-            auto next = node->next;
-            delete node;
-            node = next;
+        for (auto node = head; node != nullptr; node = node->next) {
+            delete node->previous;
         }
     }
 private:
     Node *head{}, *tail{};
+    std::size_t count{};
 };
 
 auto main() -> int {
     char input;
-    size_t hash;
+    size_t hash = 0;
 
-    start:
-    std::cout << "Enter type [M/E/e]: ";
-    std::cin >> input;
+    while (hash == 0) {
+        std::cout << "Enter type [M/E/e]: ";
+        std::cin >> input;
 
-    switch (input) {
-        case 'M':
-            hash = typeid(Manager).hash_code();
-            break;
-        case 'E':
-            hash = typeid(Employee).hash_code();
-            break;
-        case 'e':
-            hash = typeid(Engineer).hash_code();
-            break;
-        default:
-            std::cout << "Unknown char\n";
-            goto start;
+        switch (input) {
+            case 'M':
+                hash = typeid(Manager).hash_code();
+                break;
+            case 'E':
+                hash = typeid(Employee).hash_code();
+                break;
+            case 'e':
+                hash = typeid(Engineer).hash_code();
+                break;
+            default:
+                std::cout << "Unknown char\n";
+        }
     }
 
     auto bob = Manager("Bob", 2000);
