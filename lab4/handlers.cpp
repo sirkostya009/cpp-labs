@@ -1,3 +1,5 @@
+#include "handlers.h"
+
 #include <regex>
 #include <iostream>
 #include "App.h"
