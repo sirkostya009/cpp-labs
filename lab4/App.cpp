@@ -5,11 +5,11 @@
 #include "handlers.h"
 
 namespace app {
-    App::App() : list(new List<std::shared_ptr<Worker>>({
+    App::App() : list(new List<std::shared_ptr<Worker>>{
         std::make_shared<Employee>("Alice", 1000),
         std::make_shared<Manager>("Bob", 2000),
         std::make_shared<Engineer>("Jack", 500),
-    })), dispatch(new EventDispatch()) {
+    }), dispatch(new EventDispatch()) {
         using namespace handlers;
 
         dispatch->subscribe(Event::ADD, handleAddEvent);
@@ -28,7 +28,6 @@ namespace app {
             std::cout << '>';
             std::cin >> operation;
             std::getline(std::cin, event.data);
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
             event.handled = false;
 

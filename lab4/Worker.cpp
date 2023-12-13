@@ -26,7 +26,7 @@ namespace app {
     }
 
     const char* Manager::getType() const {
-        return "Worker";
+        return "Manager";
     }
 
     const char* Engineer::getType() const {
