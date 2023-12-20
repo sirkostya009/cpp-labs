@@ -23,11 +23,15 @@ namespace app {
     void App::run() const {
         char operation;
         Event event;
+        std::string string;
 
         while (true) {
             std::cout << '>';
             std::cin >> operation;
-            std::getline(std::cin, event.data);
+
+            while (std::cin.peek() != '\n' && std::cin >> string) {
+                event.data.push_back(string);
+            }
 
             event.handled = false;
 
@@ -51,6 +55,7 @@ namespace app {
             }
 
             dispatch->dispatch(event);
+            event.data.clear();
         }
     }
 

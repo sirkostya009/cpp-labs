@@ -2,6 +2,7 @@
 #define OPERATING_SYSTEMS_LABS_EVENT_H
 
 #include <string>
+#include <vector>
 
 namespace app {
     struct Event {
@@ -16,7 +17,7 @@ namespace app {
 
         Type type = UNKNOWN;
         bool handled = false;
-        std::string data;
+        std::vector<std::string> data = {};
     };
 }
 
