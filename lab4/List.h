@@ -100,25 +100,24 @@ namespace app {
             int removedCount = 0;
 
             for (auto node = head; node != nullptr;) {
+                auto next = node->next;
+
                 if (predicate(node->value)) {
-                    auto next = node->next;
-
                     if (node->previous != nullptr)
-                        node->previous->next = node->next;
+                        node->previous->next = next;
                     else
-                        head = node->next;
+                        head = next;
 
-                    if (node->next != nullptr)
-                        node->next->previous = node->previous;
+                    if (next != nullptr)
+                        next->previous = node->previous;
                     else
                         tail = node->previous;
 
                     delete node;
-                    node = next;
                     removedCount++;
-                } else {
-                    node = node->next;
                 }
+
+                node = next;
             }
 
             return removedCount;
